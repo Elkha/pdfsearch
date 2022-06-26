@@ -44,16 +44,21 @@ foreach($result as $val)
 	{
 		continue;
 	}
+	else if(file_exists("$target_file.txt"))
+	{
+		echo "error: $val\n";
+		continue;
+	}
 
 	$_source_file = '"' . $source_file . '"';
 	$_target_file = '"' . $target_file . '"';
 
-	echo "extracting pdf file: $val";
+	echo "extracting pdf file: $val\n";
 	exec("$exe -i $_source_file -o $_target_file");
 
-	file_put_contents("$target_file.txt", $val . "\n" . preg_replace('/[\s\t\v\r\n]+/u', "\n", strip_tags(preg_replace(
+	file_put_contents("$target_file.txt", $val . "\n" . preg_replace('/[\s\t\v\r\n]+/u', " ", htmlspecialchars_decode(strip_tags(preg_replace(
 		['/^[\s\S].*?(<html[^>]*>)/s','#<(head|script)[^>]*>[\s\S]*?</\1>#i','/(<\?[\s\S]*?\?>|<\s*(script|style|xmp|pre|textarea|input|option)[^>]*(?:>.*?<\s*\/\s*\2|\/)\s*>)|(\s){2,}/ius']
 		, ['\1','','\1\3']
-		,file_get_contents($target_file)
-	))), LOCK_EX);
+		,@file_get_contents($target_file)
+	)))), LOCK_EX);
 }
