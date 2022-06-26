@@ -25,6 +25,8 @@ $result = scanAllDir($dir);
 
 $count = 1;
 unset($argv[0]);
+echo "\n검색: " . implode(' AND ', $argv). "\n";
+
 foreach($result as $val)
 {
 	if(!preg_match('/\.pdf\.html\.txt/i', $val))
@@ -47,16 +49,19 @@ foreach($result as $val)
 		// 느낌표 키워드의 단어가 발견되면 없음으로 처리, break
 		if(preg_match('/^\!/u', $v))
 		{
-			if(mb_stripos($buff, '!')!==FALSE)
+			if(mb_stripos($buff, preg_replace('/^\!/u', '', $v))!==FALSE)
 			{
 				$find = FALSE;
 				break;
 			}
 		}
-		// 아직 발견 안 되었다면 계속 검색.
-		else if($find===FALSE)
+		else
 		{
 			$find = mb_stripos($buff, $v);
+			if($find===FALSE)
+			{
+				break;
+			}
 		}
 	}
 	if($find!==FALSE)
