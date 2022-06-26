@@ -61,13 +61,14 @@ foreach($result as $val)
 	}
 	if($find!==FALSE)
 	{
+		echo "\n";
 		echo "[$count] " . preg_replace('/\.html\.txt$/i', '', $val);
 		echo "\n";
 		$start = $find - 100;
 		if($start < 0) $start = 0;
 		echo str_replace("\n", ' ', mb_substr($buff, $start, 200));
 		$count++;
-		echo "\n\n";
+		echo "\n";
 	}
 }
 
