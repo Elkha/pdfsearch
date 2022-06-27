@@ -1,5 +1,6 @@
 chcp 65001
 
+mkdir _bin\php
 curl https://windows.php.net/downloads/releases/php-7.4.30-Win32-vc15-x64.zip --output _bin\php-7.4.30-Win32-vc15-x64.zip
 tar -xf _bin\php-7.4.30-Win32-vc15-x64.zip --directory _bin\php
 copy _bin\php.ini _bin\php\php.ini
