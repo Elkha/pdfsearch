@@ -15,7 +15,8 @@ cd _bin
 node\npm install pdf2json
 cd ../
 
-echo installed!
 del _bin\node-v16.15.1-win-x64.zip
+
 del _bin\php-7.4.30-Win32-vc15-x64.zip
+
 PAUSE
