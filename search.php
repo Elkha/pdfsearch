@@ -17,8 +17,6 @@ function scanAllDir($dir) {
   return $result;
 }
 
-// Usage: pdf2html [options] -in inputfile -out outputfile
-$exe = __DIR__ . '\\_bin\\pdf2html.exe'; // https://www.pdftron.com/downloads/pdf2html.zip
 $dir = __DIR__ . '\\_data';
 $dir_pdf = __DIR__ . '\\pdf';
 $result = scanAllDir($dir);
