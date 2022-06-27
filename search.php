@@ -29,11 +29,11 @@ echo "\n검색: " . implode(' AND ', $argv). "\n";
 
 foreach($result as $val)
 {
-	if(!preg_match('/\.pdf\.html\.txt/i', $val))
+	if(!preg_match('/\.content\.txt$/i', $val))
 	{
 		continue;
 	}
-	if(!file_exists($dir_pdf . '\\' . preg_replace('/\.html\.txt$/i', '', $val))) // 원본 pdf 지웠다면 검색에 포함 안 되게.
+	if(!file_exists($dir_pdf . '\\' . preg_replace('/\.content\.txt$/i', '.pdf', $val))) // 원본 pdf 지웠다면 검색에 포함 안 되게.
 	{
 		continue;
 	}
@@ -67,11 +67,11 @@ foreach($result as $val)
 	if($find!==FALSE)
 	{
 		echo "\n";
-		echo "[$count] " . preg_replace('/\.html\.txt$/i', '', $val);
+		echo "[$count] " . preg_replace('/\.content\.txt$/i', '.pdf', $val);
 		echo "\n";
 		$start = $find - 100;
 		if($start < 0) $start = 0;
-		echo str_replace("\n", ' ', mb_substr($buff, $start, 200));
+		echo preg_replace('/[\r\n]+/u', ' ', mb_substr($buff, $start, 200));
 		$count++;
 		echo "\n";
 	}

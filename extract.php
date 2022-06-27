@@ -17,10 +17,12 @@ function scanAllDir($dir) {
   return $result;
 }
 
-// Usage: pdf2html [options] -in inputfile -out outputfile
-$exe = __DIR__ . '\\_bin\\pdf2html.exe'; // https://www.pdftron.com/downloads/pdf2html.zip
-$dir = __DIR__ . '\\pdf';
-$result = scanAllDir($dir);
+if(!is_dir($dir = __DIR__ . '\\_data'))
+{
+	mkdir($dir, 0777);
+}
+$dir_pdf = __DIR__ . '\\pdf';
+$result = scanAllDir($dir_pdf);
 
 foreach($result as $val)
 {
@@ -29,8 +31,8 @@ foreach($result as $val)
 		continue;
 	}
 
-	$source_file = $dir . '\\' . str_replace('/', '\\', $val);
-	$target_file = __DIR__ . '\\_data\\' . str_replace('/', '\\', $val) . '.html';
+	$source_file = $dir_pdf . '\\' . str_replace('/', '\\', $val);
+	$target_file = $dir . '\\' . preg_replace('/\.pdf/iu', '.content.txt', str_replace('/', '\\', $val));
 
 	if(!is_dir(dirname($target_file)) && !@mkdir(dirname($target_file), 0777, TRUE))
 	{
@@ -44,21 +46,31 @@ foreach($result as $val)
 	{
 		continue;
 	}
-	else if(file_exists("$target_file.txt"))
+	else if(file_exists($target_file))
 	{
 		echo "error: $val\n";
 		continue;
 	}
 
 	$_source_file = '"' . $source_file . '"';
-	$_target_file = '"' . $target_file . '"';
+	$_target_dir = '"' . dirname($target_file) . '"';
 
 	echo "extracting pdf file: $val\n";
-	exec("$exe -i $_source_file -o $_target_file");
+	exec(__DIR__ . "\\_bin\\node_modules\\.bin\\pdf2json.cmd -i -c -f $_source_file -o $_target_dir");
 
+	if(file_exists($target_file))
+	{
+	}
+	else
+	{
+		echo "error: $val\n";
+	}
+
+/*
 	file_put_contents("$target_file.txt", $val . "\n" . preg_replace('/[\s\t\v\r\n]+/u', " ", htmlspecialchars_decode(strip_tags(preg_replace(
 		['/^[\s\S].*?(<html[^>]*>)/s','#<(head|script)[^>]*>[\s\S]*?</\1>#i','/(<\?[\s\S]*?\?>|<\s*(script|style|xmp|pre|textarea|input|option)[^>]*(?:>.*?<\s*\/\s*\2|\/)\s*>)|(\s){2,}/ius']
 		, ['\1','','\1\3']
 		,@file_get_contents($target_file)
 	)))), LOCK_EX);
+*/
 }
