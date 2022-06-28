@@ -56,7 +56,7 @@ foreach($result as $val)
 	$_target_dir = '"' . dirname($target_file) . '"';
 
 	echo "extracting pdf file: $val\n";
-	exec(__DIR__ . "\\_bin\\node_modules\\.bin\\pdf2json.cmd -i -c -f $_source_file -o $_target_dir");
+	exec('SET PATH='.__DIR__.'\\_bin\\node;%PATH% && ' . __DIR__ . "\\_bin\\node_modules\\.bin\\pdf2json.cmd -i -c -f $_source_file -o $_target_dir");
 
 	if(file_exists($target_file))
 	{
